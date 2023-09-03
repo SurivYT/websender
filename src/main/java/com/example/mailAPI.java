@@ -19,11 +19,13 @@ public class mailAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     public void sendASimpleEmail(Contacts contacts) {
 
-        System.out.println(contacts);
+        System.out.println(contacts.message);
 
         if(contacts.phone==""||contacts.phone==null){
             contacts.phone="nicht angegeben";
         }
+
+
         Mail mail = new Mail();
         mail.setTo(List.of(new String[]{"corinna305@outlook.de"}));
         mail.setSubject("Kontaktaufnahme: "+contacts.subject);
@@ -33,10 +35,11 @@ public class mailAPI {
                 "Email: " + contacts.email +"\n" +
                 "Telefon: " + contacts.phone + "\n" +
                 contacts.message);
+        contacts.message = contacts.message.replaceAll("\n", "<br>");
         mail.setHtml("<h1>Kontaktaufnahme via Website</h1>" +
                 "Kontaktinformationen:"+
                 "<ul>" +
-                "<li>Name: "+contacts.phone+"</li>" +
+                "<li>Name: "+contacts.name+"</li>" +
                 "<li>Telefon:<a href=\"tel:"+contacts.phone+"\">"+contacts.phone+"</a></li>" +
                 "<li>Email:<a href=\"mailto:"+contacts.email+"\">"+contacts.email+"</a></li>" +
                 "</ul><br>" +
